@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"/>
+
+    <settings>
+        <!--<setting name="logImpl" value="STDOUT_LOGGING"/>--><!--mybatis自带的标准日志-->
+        <setting name="logImpl" value="com.arnoer.basic.util.CustomSlf4jImpl"/>
+
+        <!-- 打开全局延迟加载的开关，系统默认为false-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 将积极加载改为消极加载即按需要加载  系统默认为true,表示可能被任何属性加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 开启二级缓存 -->
+        <!-- <settingname="cacheEnabled" value="true"/> -->
+    </settings>
+
+
+    <!-- 别名 包以其子包下所有类   头字母大小都行-->
+    <typeAliases>
+        <package name="com.arnoer.basic.po"/>
+    </typeAliases>
+    <!-- 和spring整合后 environments配置将废除    -->
+    <environments default="development">
+        <environment id="development">
+            <!-- 使用jdbc事务管理 -->
+            <transactionManager type="JDBC"/>
+            <!-- 数据库连接池 -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--xml和类名在同一包下且同名，可以扫描到-->
+<!--        <mapper class="com.arnoer.basic.mapper.UserMapper"/>-->
+        <package name="com.arnoer.basic.mapper"/>
+    </mappers>
+</configuration>
