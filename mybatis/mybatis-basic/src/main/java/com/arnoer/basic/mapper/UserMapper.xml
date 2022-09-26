@@ -135,7 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select o.id,o.user_id,o.number,o.createtime,u.username,u.sex,u.address,u.birthday
 		from `user` u left join orders o on o.user_id = u.id
 	</select>
-	<resultMap id="allUserMap" type="User">
+	<resultMap id="allUserMap" type="com.arnoer.basic.po.User">
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
 		<result column="sex" property="sex"/>
@@ -159,14 +159,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from user where id=#{id}
 	</select>
 
-	<resultMap id="UserOrdersLazyLoadingResultMap" type="User">
+	<resultMap id="UserOrdersLazyLoadingResultMap" type="com.arnoer.basic.po.User">
 		<id column="id" property="id"/>
 		<result column="username" property="username"/>
 		<result column="sex" property="sex"/>
 		<result column="birthday" property="birthday"/>
 		<result column="address" property="address"/>
+		<!--fetchType控制局部的加载策略，优于settings中的全局，lazy:懒加载，eager：立即加载-->
 		<collection property="orderList" ofType="User" select="com.arnoer.basic.mapper.OrderMapper.findByUserId"
-					 column="id"/>
+					 column="id" fetchType="lazy"/>
 	</resultMap>
 
 
