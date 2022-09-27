@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util">
+
+    <bean id="heart" class="com.arnoer.ioc.po.Heart"/>
+
+    <!-- 使用xml的方式配置Bean和注入属性
+        1、构造函数构建bean    <constructor-args>
+        2、c命令空间
+        3、注入属性  <property>
+        4、p命令空间
+        5、util-命名空间
+        6、静态工厂和实例工厂获取bean
+       对于耦合深的用构造器，可选的依赖使用属性set注入
+    -->
+
+    <!-- 方式1、使用默认无参构造器创建bean，默认的id是com.spring.ioc.po.People#0，#0是一个计数方式用来区分同类型的bean-->
+    <bean id="p1" class="com.arnoer.ioc.po.People"/>
+
+    <!-- 方式2 使用不同的构造器注入bean或者字面量来初始化bean-->
+    <bean id="p2" class="com.arnoer.ioc.po.People">
+        <!-- 注入字面量和注入bean引用-->
+        <constructor-arg name="name" value="Arno"/>
+        <constructor-arg name="age" value="24"/>
+        <constructor-arg name="heart" ref="heart"/>
+        <!--也可以用set，区别在于set会去重不保证取出顺序-->
+        <constructor-arg name="hobbies">
+            <list>
+                <value>play games</value>
+                <value>drink milk</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!--使用c-命名空间注入属性，格式有如下方式：
+            c:参数名称=
+            c:_0=           参数的索引从0开始
+            c:参数名称-ref=         注入其他bean
+            c:_0-ref=
+            c:_-ref=    如果只有一个属性是引用类型
+    -->
+    <!--虽然不会报错，但是没有注入构造器全部的参数 容器无法启动，c-没法注入集合-->
+    <bean id="p3" class="com.arnoer.ioc.po.People" c:name="wzx" c:_1="12" c:heart-ref="heart">
+        <constructor-arg name="hobbies">
+            <null/>
+        </constructor-arg>
+    </bean>
+
+
+    <!--方式3 使用静态工厂返回工厂创建的bean-->
+    <bean id="p4" class="com.arnoer.ioc.factory.StaticFactory" factory-method="getPeople">
+        <property name="name" value="Arnold"/>
+        <property name="age" value="32"/>
+    </bean>
+
+    <!--方式4、使用实例工厂获取bean-->
+    <bean id="factory" class="com.arnoer.ioc.factory.InstanceFactory"/>
+    <bean id="p5" factory-bean="factory" factory-method="getPeople">
+        <property name="name" value="Arnold"/>
+        <property name="age" value="32"/>
+    </bean>
+
+    <!--方式5  p标签 -->
+    <!--p标签无需setter方法-->
+    <bean id="p6" class="com.arnoer.ioc.po.People" p:name="Arnold" p:age="24" p:heart-ref="heart"/>
+
+    <!-- 方式6 注入属性：引用类型数据-->
+    <bean id="pd" class="com.arnoer.ioc.dao.PeopleDao"/>
+    <bean id="ps" class="com.arnoer.ioc.service.PeopleService">
+        <!--
+            UserDao对象需要提供setter方法
+            name:us对象的成员    ref：注入Bean的id
+        -->
+        <property name="peopleDao" ref="pd"/>
+    </bean>
+
+    <!--方式7 注入复杂类型属性值-->
+    <bean id="p7" class="com.arnoer.ioc.po.People">
+        <!--数组-->
+        <property name="hobbies">
+            <list>
+                <value>刘亦菲</value>
+                <value>王祖贤</value>
+                <value>翁美玲</value>
+            </list>
+        </property>
+        <!--list集合-->
+        <property name="list">
+            <list>
+                <value>舒畅</value>
+                <value>林青霞</value>
+                <value>李若彤</value>
+            </list>
+        </property>
+
+        <!--同样的 p命名空间也无法注入集合，但是可以使用util-命名来简化-->
+<!--        <util:list id="list">
+            <value>hello</value>
+        </util:list>-->
+
+        <!--Map集合-->
+        <property name="map">
+            <map>
+                <entry key="9527" value="周星驰"/>
+                <entry key="007" value="猪肉容"/>
+            </map>
+        </property>
+        <!--Properties-->
+        <property name="properties">
+            <props>
+                <prop key="driverclass">com.mysql.jdbc.Driver</prop>
+                <prop key="username">root</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

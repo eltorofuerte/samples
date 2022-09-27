@@ -9,12 +9,16 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>ioc-sample</module>
+        <module>ioc-xml</module>
+        <module>aop-xml</module>
     </modules>
     <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <spring.version>5.3.23.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -23,6 +27,11 @@
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
         </dependency>
     </dependencies>
 </project>
