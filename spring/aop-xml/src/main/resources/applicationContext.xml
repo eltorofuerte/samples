@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"> <!-- bean definitions here -->
+
+    <!-- 1.创建被代理对象和定义切面逻辑的对象，因为方法是由对象来调用的 -->
+    <bean id="cat" class="com.arnoer.aop.po.Cat"/>
+    <bean id="enhancedCat" class="com.arnoer.aop.aspect.EnhancedCat"/>
+    <!-- 2.配置aop-->
+    <aop:config>
+        <!--定义切入点（需要增强的方法）,Cat.*表示增强Cat类的所有方法-->
+        <aop:pointcut id="catpointcut" expression="execution(* com.arnoer.aop.po.Cat.*(..))"/>
+        <!--定义切面-->
+        <aop:aspect ref="enhancedCat">
+            <!--定义通知-->
+            <aop:before method="doBefore" pointcut-ref="catpointcut"/>
+            <aop:after method="doAfter" pointcut-ref="catpointcut"/>
+            <aop:after-returning method="doAfterReturning" pointcut-ref="catpointcut"/>
+            <aop:after-throwing method="doAfterThrowing" pointcut-ref="catpointcut"/>
+            <!--<aop:around method="doAround" pointcut-ref="catpointcut"/>-->
+        </aop:aspect>
+    </aop:config>
+
+    <!-- 开启aop自动代理-->
+<!--    <aop:aspectj-autoproxy/>-->
+
+<!--    &lt;!&ndash;扫描包装配bean&ndash;&gt;-->
+<!--    <context:component-scan base-package="com.arnoer.aop"/>-->
+
+
+</beans>

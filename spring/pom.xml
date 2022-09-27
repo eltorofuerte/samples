@@ -11,6 +11,8 @@
         <module>ioc-sample</module>
         <module>ioc-xml</module>
         <module>aop-xml</module>
+        <module>aop-config</module>
+        <module>spring-jdbc</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -18,7 +20,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <spring.version>5.3.23.RELEASE</spring.version>
+        <spring.version>5.3.23</spring.version>
     </properties>
 
     <dependencies>
@@ -32,6 +34,23 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
+        </dependency>
+        <!--log-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.26</version>
+        </dependency>
+        <!--tool-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
         </dependency>
     </dependencies>
 </project>
