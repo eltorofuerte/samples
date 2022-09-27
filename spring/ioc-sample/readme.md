@@ -1,0 +1,3 @@
+将bean的类路径保存到properties文件，项目启动时通过反射生成bean对象到map集合中。
+
+模拟bean到容器的状态。
