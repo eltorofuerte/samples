@@ -36,3 +36,4 @@ overridedb.*
 *.jar
 .svn
 .DS_Store
+*.log

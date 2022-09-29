@@ -13,6 +13,7 @@
         <module>aop-xml</module>
         <module>aop-config</module>
         <module>spring-jdbc</module>
+        <module>spring-jdbc-code</module>
     </modules>
     <packaging>pom</packaging>
 
